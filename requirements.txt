@@ -1,0 +1,21 @@
+# Base web app framework
+streamlit>=1.22.0
+
+# Data manipulation
+pandas>=1.5.3
+numpy>=1.24.3
+
+# Visualization
+matplotlib>=3.7.1
+seaborn>=0.12.2
+plotly>=5.13.0
+
+# Machine Learning
+scikit-learn>=1.2.2
+scipy>=1.10.0
+
+# NLP utilities
+nltk>=3.8.1
+
+# Utilities
+joblib>=1.2.0
