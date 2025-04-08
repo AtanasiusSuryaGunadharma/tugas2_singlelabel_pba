@@ -4,9 +4,6 @@ from utils.preprocessing import preprocess_text
 from utils.visualization import plot_prediction_probabilities
 from models.classifiers import get_classifier, create_vectorizer
 from sklearn.model_selection import train_test_split
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from utils.visualization import plot_multilabel_confusion_matrix
 from streamlit_extras.let_it_rain import rain
 import tensorflow as tf
 import numpy as np
