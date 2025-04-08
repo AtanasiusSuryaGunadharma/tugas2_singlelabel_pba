@@ -4,6 +4,19 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from models.classifiers import get_classifier, create_vectorizer, evaluate_model
 from utils.visualization import plot_confusion_matrix
+import seaborn as sns
+from models.multi_label_classifiers import get_multilabel_classifier, create_vectorizer, evaluate_multilabel_model, create_multilabel_target
+from utils.visualization import plot_multilabel_confusion_matrix
+from streamlit_extras.let_it_rain import rain
+import tensorflow as tf
+import numpy as np
+from tensorflow.keras.models import load_model
+from PIL import Image
+from datetime import datetime, timedelta
+import time
+import base64
+from pathlib import Path
+from st_social_media_links import SocialMediaIcons
 
 st.set_page_config(page_title="Model Training", layout="wide")
 st.title("Model Training")
@@ -93,3 +106,38 @@ if st.button("Train Model"):
     # Classification report
     st.subheader("Classification Report")
     st.dataframe(report_df)
+
+def get_base64(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+    
+def set_background(png_file):
+    bin_str = get_base64(png_file)
+    page_bg_img = '''
+    <style>
+    .stApp {
+    background-image: url("data:image/png;base64,%s");
+    background-size: cover;
+    }
+    </style>
+    ''' % bin_str
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# Menambahkan audio autoplay menggunakan HTML
+try:
+    with open(r"lagu_picapica.mp3", "rb") as audio_file:
+        audio_base64 = base64.b64encode(audio_file.read()).decode()
+
+    audio_html = f"""
+    <audio autoplay loop>
+        <source src="data:audio/mpeg;base64,{audio_base64}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    """
+    st.markdown(audio_html, unsafe_allow_html=True)
+except FileNotFoundError:
+    st.error("File audio tidak ditemukan. Pastikan 'natal_lagu3.mp3' sudah ada di direktori project.")
+    
+# Change Background Streamlit
+set_background(r"background_music2.gif")
