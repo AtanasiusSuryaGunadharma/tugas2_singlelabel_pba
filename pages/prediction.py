@@ -15,9 +15,29 @@ import base64
 from pathlib import Path
 from st_social_media_links import SocialMediaIcons
 
+def get_base64(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+  
 st.set_page_config(page_title="Prediction", layout="wide")
 st.title("Make Predictions")
 
+# Menambahkan audio autoplay menggunakan HTML
+try:
+    with open(r"lagu_picapica.mp3", "rb") as audio_file:
+        audio_base64 = base64.b64encode(audio_file.read()).decode()
+
+    audio_html = f"""
+    <audio autoplay loop>
+        <source src="data:audio/mpeg;base64,{audio_base64}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    """
+    st.markdown(audio_html, unsafe_allow_html=True)
+except FileNotFoundError:
+    st.error("File audio tidak ditemukan. Pastikan 'natal_lagu3.mp3' sudah ada di direktori project.")
+    
 # Access data from session state
 df = st.session_state.df
 
@@ -140,11 +160,6 @@ if st.button("Predict"):
         if fig is not None:
             st.subheader("Prediction Probabilities")
             st.pyplot(fig)
-
-def get_base64(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
     
 def set_background(png_file):
     bin_str = get_base64(png_file)
@@ -158,20 +173,6 @@ def set_background(png_file):
     ''' % bin_str
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# Menambahkan audio autoplay menggunakan HTML
-try:
-    with open(r"lagu_picapica.mp3", "rb") as audio_file:
-        audio_base64 = base64.b64encode(audio_file.read()).decode()
 
-    audio_html = f"""
-    <audio autoplay loop>
-        <source src="data:audio/mpeg;base64,{audio_base64}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    """
-    st.markdown(audio_html, unsafe_allow_html=True)
-except FileNotFoundError:
-    st.error("File audio tidak ditemukan. Pastikan 'natal_lagu3.mp3' sudah ada di direktori project.")
-    
 # Change Background Streamlit
 set_background(r"background_music2.gif")
