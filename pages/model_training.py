@@ -14,26 +14,6 @@ import time
 import base64
 from pathlib import Path
 from st_social_media_links import SocialMediaIcons
-
-def get_base64(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-    
-# Menambahkan audio autoplay menggunakan HTML
-try:
-    with open(r"lagu_picapica.mp3", "rb") as audio_file:
-        audio_base64 = base64.b64encode(audio_file.read()).decode()
-
-    audio_html = f"""
-    <audio autoplay loop>
-        <source src="data:audio/mpeg;base64,{audio_base64}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    """
-    st.markdown(audio_html, unsafe_allow_html=True)
-except FileNotFoundError:
-    st.error("File audio tidak ditemukan. Pastikan 'natal_lagu3.mp3' sudah ada di direktori project.")
     
 st.set_page_config(page_title="Model Training", layout="wide")
 st.title("Model Training")
@@ -71,7 +51,26 @@ elif model_option == "SVM":
 elif model_option == "Multinomial Naive Bayes":
     model_params['alpha'] = st.slider("Smoothing Parameter (alpha)",
                                       min_value=0.01, max_value=1.0, value=1.0, step=0.01)
+def get_base64(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+    
+# Menambahkan audio autoplay menggunakan HTML
+try:
+    with open(r"lagu_picapica.mp3", "rb") as audio_file:
+        audio_base64 = base64.b64encode(audio_file.read()).decode()
 
+    audio_html = f"""
+    <audio autoplay loop>
+        <source src="data:audio/mpeg;base64,{audio_base64}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    """
+    st.markdown(audio_html, unsafe_allow_html=True)
+except FileNotFoundError:
+    st.error("File audio tidak ditemukan. Pastikan 'natal_lagu3.mp3' sudah ada di direktori project.")
+    
 # Processing
 if st.button("Train Model"):
     st.info("Training in progress...")
